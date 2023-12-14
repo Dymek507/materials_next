@@ -5,15 +5,14 @@ import {
   type MRT_ColumnDef,
 } from 'material-react-table';
 import { ICompanywithDistance } from '../helpers/types';
-import { Link, useLocation } from 'react-router-dom';
 
 import { IconButton } from '@mui/material';
 import MoreIcon from '@mui/icons-material/More';
+import Link from 'next/link';
 
 const Table = () => {
-  const location = useLocation()
 
-  const { data } = location.state as { data: ICompanywithDistance[] }
+  // const { data } = location.state as { data: ICompanywithDistance[] }
 
   const columns = useMemo<MRT_ColumnDef<ICompanywithDistance>[]>(
     () => [
@@ -46,7 +45,7 @@ const Table = () => {
       },
       {
         accessorFn: (row) => (
-          <Link to={`/table/${row.id}`}>
+          <Link href={`/table/${row.id}`}>
             <IconButton>
               <MoreIcon />
             </IconButton>

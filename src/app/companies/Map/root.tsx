@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {
   TileLayer,
   MapContainer,
@@ -13,8 +12,6 @@ import { GeoJSON, GeoJsonObject } from 'react-leaflet/GeoJSON'
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet/dist/leaflet.css";
-import placeHolder from "./assets/manufacturer.svg";
-import site from "./assets/site.svg"
 import L from "leaflet";
 import { ICompany } from "../../../types/model";
 import { useAppSelector } from "../../../store/app/hooks";
@@ -46,12 +43,12 @@ const Map = ({ list, circleRadius }: MapProps) => {
     );
   };
 
-  const onPlaceClick = (feature: any, layer: any) => {
-    const popupContent = ReactDOMServer.renderToString(
-      <GeoJSONPopup feature={feature} />
-    );
-    layer.bindPopup(popupContent);
-  }
+  // const onPlaceClick = (feature: any, layer: any) => {
+  //   const popupContent = ReactDOMServer.renderToString(
+  //     <GeoJSONPopup feature={feature} />
+  //   );
+  //   layer.bindPopup(popupContent);
+  // }
 
   function picnicFilter(e: any, type: string) {
     if (type === "") return true
@@ -91,7 +88,7 @@ const Map = ({ list, circleRadius }: MapProps) => {
               tileSize={256}
             />
           </LayersControl.Overlay>
-          <LayersControl.Overlay name="Kruszywo">
+          {/* <LayersControl.Overlay name="Kruszywo">
             <GeoJSON data={geojson} onEachFeature={(feature, layer) => onPlaceClick(feature, layer)} filter={e => picnicFilter(e, "KAMIENIE ŁAMANE I BLOCZNE")} style={{ color: "red" }} />
           </LayersControl.Overlay>
           <LayersControl.Overlay name="Piasek">
@@ -99,19 +96,19 @@ const Map = ({ list, circleRadius }: MapProps) => {
           </LayersControl.Overlay>
           <LayersControl.Overlay name="Inne">
             <GeoJSON data={geojson} onEachFeature={(feature, layer) => onPlaceClick(feature, layer)} filter={e => picnicFilter(e, "")} />
-          </LayersControl.Overlay>
-          <LayersControl.Overlay checked={false} name="S11">
+          </LayersControl.Overlay> */}
+          {/* <LayersControl.Overlay checked={false} name="S11">
             <GeoJSON data={s11_json} onEachFeature={(feature, layer) => onPlaceClick(feature, layer)} />
-          </LayersControl.Overlay>
+          </LayersControl.Overlay> */}
         </LayersControl>
         <Marker position={[siteCords.lat, siteCords.lng]} icon={L.icon({
-          iconUrl: site,
+          iconUrl: '/site.svg',
           iconSize: [38, 38],
         })}>
         </Marker>
         {list.length !== 0 && list.map((company) => (
           <Marker key={company.id} position={[company.cords.lat, company.cords.lng]} icon={L.icon({
-            iconUrl: placeHolder,
+            iconUrl: '/manufacturer.svg',
             iconSize: [38, 38],
           })}>
             <Popup>

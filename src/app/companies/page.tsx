@@ -6,7 +6,6 @@ import { ICategory } from '../../types/model'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import CsvDownloadButton from 'react-json-to-csv'
-import { Link } from 'react-router-dom'
 import CompanyForm from '../CardCompany/CompanyForm'
 import InfoModal from '../../components/InfoModal/InfoModal'
 import { useAppSelector } from '../../store/app/hooks'
@@ -16,6 +15,7 @@ import { ICompanywithDistance } from './helpers/types'
 
 import GridOnIcon from '@mui/icons-material/GridOn';
 import ImportCompaniesFromExcel from './ImportCompaniesFromExcel/root'
+import Link from 'next/link'
 
 const Locations = () => {
   const [category, setCategory] = React.useState<string>("")
@@ -102,7 +102,7 @@ const Locations = () => {
         <CsvDownloadButton data={dataToExport(companyListFiltered)} className='text-black' >
           Export
         </CsvDownloadButton>
-        <Link to='/table' state={{ data: companyListFiltered }}>
+        <Link href='/table' >
           <button className='ml-4 text-black'>Tabela</button>
         </Link>
         <button onClick={() => setOpenAddModal(true)} className='ml-4 text-black'>Dodaj</button>

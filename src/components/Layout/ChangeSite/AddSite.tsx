@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Container, TextField, Typography } from '@mui/material'
 import { useAppDispatch } from '../../../store/app/hooks';
 import { IConstructionSite } from '../../../types/model';

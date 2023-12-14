@@ -1,5 +1,5 @@
+'use client'
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -21,6 +21,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 
 import { getFrancoPrice } from '../../../utils/getFrancoPrice';
 import { csvExportConverter } from './csvExportConverter';
+import Link from 'next/link';
 
 const Table = () => {
 
@@ -101,7 +102,7 @@ const Table = () => {
       },
       {
         accessorFn: (row) => (
-          <Link to={`/products/${row.id}`}>
+          <Link href={`/products/${row.id}`}>
             <IconButton>
               <MoreIcon />
             </IconButton>

@@ -1,20 +1,16 @@
-import { Link, useNavigate } from "react-router-dom"
+'use client'
+
 import { useAppSelector } from "../../store/app/hooks"
 import AccountMenu from "./AccountMenu"
 import ChangeSite from "./ChangeSite/ChangeSite"
 import getDistanceList from "../../utils/accurateDistance/getDistanceList"
+import Link from "next/link"
 
 const Navbar = () => {
 
   const constructionSite = useAppSelector(state => state.construction.constructionSite)
 
   const userData = useAppSelector(state => state.ui.userData)
-  const navigate = useNavigate()
-
-  const loginClick = () => {
-    navigate('/login')
-  }
-
 
   const clickHandler = () => {
     getDistanceList(constructionSite);
@@ -41,7 +37,7 @@ const Navbar = () => {
             <li><a>Item 3</a></li>
           </ul>
         </div>
-        <Link to="/" className="text-xl normal-case btn btn-ghost">Home</Link>
+        <Link href="/" className="text-xl normal-case btn btn-ghost">Home</Link>
       </div>
       <div className="hidden navbar-center lg:flex">
         <ul className="px-1 menu menu-horizontal">
@@ -58,7 +54,11 @@ const Navbar = () => {
       </div>
       <div className="navbar-end ">
         <p>
-          {userData.login ? userData.login : (<button onClick={loginClick}>Login</button>)}
+          {userData.login ? userData.login : (
+            <Link href='/login'>
+              <button>Login</button>
+            </Link>
+          )}
         </p>
         <AccountMenu />
       </div>

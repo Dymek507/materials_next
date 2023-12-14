@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import Link from "next/link";
 import { ICompany } from "../../../types/model";
 
 type CustomPopupProps = {
@@ -8,7 +8,7 @@ type CustomPopupProps = {
 const CustomPopup = ({ company }: CustomPopupProps) => {
   return (
     <div>
-      <Link to={`/table/${company.id}`}>
+      <Link href={`/table/${company.id}`}>
         <p className="text-xl font-bold">
           {company.company}
         </p>
