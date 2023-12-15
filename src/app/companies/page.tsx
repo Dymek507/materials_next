@@ -1,21 +1,20 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Map from './Map/root'
-import { Checkbox, IconButton, Slider } from '@mui/material'
 import { ICategory } from '../../types/model'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase'
-import CsvDownloadButton from 'react-json-to-csv'
+
 import CompanyForm from '../CardCompany/CompanyForm'
 import InfoModal from '../../components/InfoModal/InfoModal'
 import { useAppSelector } from '../../store/app/hooks'
 import { getLineDistance } from '../../utils/lineDistance'
-import { dataToExport } from '../../utils/dataToExport'
+
 import { ICompanywithDistance } from './helpers/types'
 
-import GridOnIcon from '@mui/icons-material/GridOn';
 import ImportCompaniesFromExcel from './ImportCompaniesFromExcel/root'
-import Link from 'next/link'
+import Menu from './Menu'
+
 
 const Locations = () => {
   const [category, setCategory] = React.useState<string>("")
@@ -53,7 +52,6 @@ const Locations = () => {
     getCategories()
   }, [])
 
-
   useEffect(() => {
     const getCompanies = async () => {
       setCompanyList([])
@@ -80,14 +78,25 @@ const Locations = () => {
   }
     , [radius, companyList, category, refresh, siteCords])
 
+
+  const openAddModalHandler = () => {
+    setOpenAddModal(true)
+  }
+
+  const openImportModalHandler = () => {
+    setOpenImportModal(true)
+  }
+
+  const setRadiusHandler = (e: any) => {
+    const radius = e.target as HTMLInputElement
+    const value = Number(radius.value)
+    setRadius(value)
+  }
+
   const checkboxHandler = (category: string) => {
     setCategory(category)
     //save default category
     localStorage.setItem("def_category", category);
-  }
-
-  const valuetext = (value: number) => {
-    return `${value}`;
   }
 
 
@@ -98,40 +107,7 @@ const Locations = () => {
       </InfoModal>
       {/* This component change navbar color */}
       <ImportCompaniesFromExcel open={openImportModal} onClose={() => setOpenImportModal(false)} />
-      <div className='absolute top-40 bg-slate-300 w-72 h-[600px] z-[999] p-4 ml-4  '>
-        <CsvDownloadButton data={dataToExport(companyListFiltered)} className='text-black' >
-          Export
-        </CsvDownloadButton>
-        <Link href='/table' >
-          <button className='ml-4 text-black'>Tabela</button>
-        </Link>
-        <button onClick={() => setOpenAddModal(true)} className='ml-4 text-black'>Dodaj</button>
-        <IconButton onClick={() => setOpenImportModal(true)} sx={{ ml: '1rem' }}>
-          <GridOnIcon />
-        </IconButton>
-        <Slider
-          aria-label="Temperature"
-          defaultValue={0}
-          getAriaValueText={valuetext}
-          onChange={e => {
-            const radius = e.target as HTMLInputElement
-            const value = Number(radius.value)
-            setRadius(value)
-          }
-          }
-          valueLabelDisplay="auto"
-          step={50}
-          marks
-          min={0}
-          max={350}
-        />
-        <ul className='flex flex-col gap-2 h-[500px] overflow-y-scroll text-black'>
-          {categories && categories.map((item) => (
-            <li key={item.key} ><Checkbox onChange={() => checkboxHandler(item.key)} checked={item.key == category} />{item.name}</li>
-          ))
-          }
-        </ul>
-      </div>
+      <Menu companyListFiltered={companyListFiltered} openAddModalHandler={openAddModalHandler} openImportModalHandler={openImportModalHandler} setRadiusHandler={setRadiusHandler} categories={categories} checkboxHandler={checkboxHandler} category={category} />
       <Map list={companyList} circleRadius={radius} />
     </div>
   )
